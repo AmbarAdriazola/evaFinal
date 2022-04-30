@@ -20,16 +20,17 @@ export default class AuthController{
 
     try{
 
-    const userFRomDb = await repository.findByEmail(credencials.email)
+      const userFRomDb = await repository.findByEmail(credencials.email)
+        console.log (userFRomDb)
+      if (!userFRomDb || !bcrypt.compareSync (credencials.password,userFRomDb.password)){
+        
+        res.status(401).json({message: 'invalid Credentials'})
+        return
+      } 
 
-    if (!userFRomDb || bcrypt.compareSync (credencials.password,userFRomDb.password)){
-    res.status(401).json({message: 'invalid Credentials'})
-    return
-    } 
+      const token = generateToken(userFRomDb)
 
-    const token = generateToken(userFRomDb)
-
-    res.json({ token })
+      res.json({ token })
     }catch (error) {
       console.log(error)
       res.status(500).json({message: 'Something went wrong'})
