@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import bcrypt from 'bcryptjs'
+import { generateToken } from "../lib/jwt";
 import { CreateUserDTO } from "../models/dto/UserDTO";
 import UserRepository from "../models/repositories/UserRepository" ;
 import { loginSchema, registerSchema } from "../models/validators/userSchemas";
@@ -16,12 +18,22 @@ export default class AuthController{
 
     const repository = new UserRepository()
 
+    try{
+
     const userFRomDb = await repository.findByEmail(credencials.email)
 
-    if (!userFRomDb || userFRomDb.password !== credencials.password){
+    if (!userFRomDb || bcrypt.compareSync (credencials.password,userFRomDb.password)){
     res.status(401).json({message: 'invalid Credentials'})
-  }
-    res.sendStatus(200)
+    return
+    } 
+
+    const token = generateToken(userFRomDb)
+
+    res.json({ token })
+    }catch (error) {
+      console.log(error)
+      res.status(500).json({message: 'Something went wrong'})
+    }
   }
 
   public readonly register = async (req: Request, res: Response) => {
@@ -34,10 +46,22 @@ export default class AuthController{
       return
     }
 
-    const repository = new UserRepository()
-    const newUser = await repository.create(user)
+    const hashedPassword = bcrypt.hashSync(user.password, 10)
 
-    res.status(201).json (newUser)
+    const repository = new UserRepository()
+
+    try{
+      const newUser = await repository.create({ ...user, password: hashedPassword })
+
+      res.status(201).json (newUser)
+    }catch (error){
+      if(error.code === 'P2002'){
+        res.status(409).json({ message:'User already exists'})
+        return
+      }
+      console.log(error)
+      res.status(500).json({message: 'Something went wrong'})
+    }
   }
 
 }
