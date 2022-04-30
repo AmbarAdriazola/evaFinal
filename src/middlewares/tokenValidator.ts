@@ -12,9 +12,9 @@ export default function tokenValidator(){
       return
     }
 
-    const [bearer, token] = authHeader.split('')
-    
-    if(bearer !== 'bearer'){
+    const [bearer, token] = authHeader.split(' ')
+  
+    if(bearer !== 'Bearer'){
       res.status(401).json({ message: MISSING_AUTH_MSG})
       return
     }
