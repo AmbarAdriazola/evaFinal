@@ -1,8 +1,8 @@
-import { Router } from "express"
-import authRoutes from "./authRoutes"
-import tokenValidator from "../middlewares/tokenValidator"
-import healthRoutes from "./healthroutes"
-import taskRoutes from "./taskRoutes"
+import { Router } from "express";
+import authRoutes from "./authRoutes";
+import tokenValidator from "../middlewares/tokenValidator";
+import healthRoutes from "./healthroutes";
+import taskRoutes from "./taskRoutes";
 
 const apiRoutes= Router()
 

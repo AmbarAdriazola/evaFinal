@@ -1,6 +1,6 @@
-import express from 'express'
-import morgan from 'morgan'
-import apiRoutes from './routes'
+import express from 'express';
+import morgan from 'morgan';
+import apiRoutes from './routes';
 
 const app = express ()
 
