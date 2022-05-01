@@ -1,4 +1,4 @@
-import Joi from "Joi"
+import Joi from "joi"
 import { CreateTaskDTO, UpdateTaskDTO } from "../dto/TaskDTO"
 
 export const createTaskSchema: Joi.ObjectSchema<CreateTaskDTO> = Joi.object().keys({
