@@ -21,7 +21,7 @@ export default class AuthController{
     try{
 
       const userFRomDb = await repository.findByEmail(credencials.email)
-        console.log (userFRomDb)
+        
       if (!userFRomDb || !bcrypt.compareSync (credencials.password,userFRomDb.password)){
         
         res.status(401).json({message: 'invalid Credentials'})

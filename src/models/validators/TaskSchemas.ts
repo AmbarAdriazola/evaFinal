@@ -12,5 +12,4 @@ export const updateTaskSchema: Joi.ObjectSchema<UpdateTaskDTO> = Joi.object().ke
   title: Joi.string().required(),
   content: Joi.string().required(),
   done: Joi.boolean().required(),
- 
 })
