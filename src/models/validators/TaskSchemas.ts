@@ -9,7 +9,7 @@ export const createTaskSchema: Joi.ObjectSchema<CreateTaskDTO> = Joi.object().ke
 })
 
 export const updateTaskSchema: Joi.ObjectSchema<UpdateTaskDTO> = Joi.object().keys({
-  title: Joi.string().required(),
-  content: Joi.string().required(),
+  title: Joi.string(),
+  content: Joi.string(),
   done: Joi.boolean().required(),
 })

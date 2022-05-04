@@ -31,33 +31,33 @@ export default class TaskRepository {
     return task
   }
 
-  public readonly create = async (task: CreateTaskDTO): Promise <TaskDTO> => {
-     const newTask = await prisma.task.create({
-       data: {
-         ...task,
-         userId: this.userId
-       }
-     })
-     return newTask
+    public readonly create = async (task: CreateTaskDTO): Promise <TaskDTO> => {
+      const newTask = await prisma.task.create({
+        data: {
+          ...task,
+          userId: this.userId
+        }
+      })
+      return newTask
+    }
+
+    public readonly update = async (id: number, task: UpdateTaskDTO): Promise<void> => {
+      await prisma.task.updateMany({
+        where: {
+          id,
+          userId: this.userId
+        },
+        data: task
+      })
+    }
+
+    public readonly delete = async (id:number) => {
+      await prisma.task.deleteMany({
+        where: {
+          id,
+          userId: this.userId
+        }
+      })
+    }
+    
   }
-
-   public readonly update = async (id: number, task: UpdateTaskDTO): Promise<void> => {
-    await prisma.task.updateMany({
-      where: {
-        id,
-        userId: this.userId
-      },
-      data: task
-    })
-   }
-
-   public readonly delete = async (id:number) => {
-     await prisma.task.deleteMany({
-       where: {
-         id,
-         userId: this.userId
-       }
-     })
-   }
-   
- }
